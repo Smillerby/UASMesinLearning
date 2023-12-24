@@ -2,7 +2,7 @@ import pickle
 import numpy as np
 import streamlit as st
 
-model = pickle.load(open('cancer-patients-and-air-pollution-a-new-link/cancer patient data sets.csv', 'rb'))
+model = pickle.load(open('cancer-patients-and-air-pollution-a-new-link/cancer patient data sets.sav', 'rb'))
 
 st.title('Prediksi Penyakit Kanker Paru-Paru')
 c1, c2, c3 = st.columns(3)
