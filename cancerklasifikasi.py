@@ -28,16 +28,17 @@ with c3:
     Smoking = st.number_input('Riwayat Paien Merokok')
     Shortness_of_Breath = st.number_input('Sesak Nafas')
 
-prediksi = ''
+hasil_prediksi = ''
 if st.button('Hasil Prediksi'):
-    prediksi = model.predict([[Age,	Gender,	Air_Pollution, Alcohol_use, Dust_Allergy, OccuPational_Hazards,	Genetic_Risk, 
-                               Balanced_Diet, Smoking, Passive_Smoker, Fatigue, 
-                               Weight_Loss, Shortness_of_Breath, Wheezing, Swallowing_Difficulty]])
+    hasil_prediksi = model.predict([[Age, Gender, Air_Pollution, Alcohol_use, Dust_Allergy, OccuPational_Hazards, Genetic_Risk, 
+                                   Balanced_Diet, Smoking, Passive_Smoker, Fatigue, 
+                                   Weight_Loss, Shortness_of_Breath, Wheezing, Swallowing_Difficulty]])
 
-    if (prediksi [0] == 0):
-        prediksi = 'Keparahan Kanker Paru-Paru Pasien Berada di Tingkat Tinggi'
-    elif(prediksi == 2):
-        prediksi = 'Keparahan Kanker Paru-Paru Pasien Berada di Tingkat Sedang'
+    if hasil_prediksi[0] == 0:
+        hasil_prediksi = 'Keparahan Kanker Paru-Paru Pasien Berada di Tingkat Tinggi'
+    elif hasil_prediksi[0] == 1:
+        hasil_prediksi = 'Keparahan Kanker Paru-Paru Pasien Berada di Tingkat Sedang'
     else:
-        prediksi = 'Keparahan Kanker Paru-Paru Pasien Berada di Tingkat Rendah'
-st.success(prediksi)
+        hasil_prediksi = 'Keparahan Kanker Paru-Paru Pasien Berada di Tingkat Rendah'
+
+st.success(hasil_prediksi)
