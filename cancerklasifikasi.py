@@ -3,7 +3,7 @@ import numpy as np
 import pickle
 
 # Load model from pickle file
-filename = 'cancer_patient_data_sets.sav'
+filename = 'cancer patient data sets.sav'
 loaded_model = pickle.load(open(filename, 'rb'))
 
 # Fungsi untuk memprediksi tingkat keparahan kanker
