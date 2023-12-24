@@ -15,7 +15,7 @@ def predict_severity(input_data, model):
     return prediction[0]
 
 # Load model dari file pickle
-filename = 'cancer-patients-and-air-pollution-a-new-link/cancer patient data sets.sav'
+filename = 'cancer patient data sets.sav'
 loaded_model = pickle.load(open(filename, 'rb'))
 
 # Judul aplikasi web
