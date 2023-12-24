@@ -1,15 +1,16 @@
 import streamlit as st
 import numpy as np
+from sklearn.neighbors import KNeighborsClassifier
 
 # Fungsi untuk memprediksi tingkat keparahan kanker
 def predict_severity(input_data):
     input_data_numpy = np.asarray(input_data)
     data_reshaped = input_data_numpy.reshape(1, -1)
-    prediksi = model1.predict(data_reshaped)
+    prediksi = knn_model.predict(data_reshaped)
     return prediksi[0]
 
 # Tampilkan judul aplikasi
-st.title('Prediksi Keparahan Kanker Paru-Paru')
+st.title('Prediksi Keparahan Kanker Paru-Paru dengan KNN')
 
 # Tambahkan input pengguna menggunakan widget streamlit
 age = st.slider('Usia Pasien', min_value=1, max_value=100, value=50)
@@ -28,3 +29,8 @@ if st.button('Prediksi'):
         st.warning('Keparahan Kanker Paru-Paru Pasien Berada di Tingkat Sedang')
     else:
         st.success('Keparahan Kanker Paru-Paru Pasien Berada di Tingkat Rendah')
+
+# Load model KNN
+# Sesuaikan dengan cara Anda menyimpan dan memuat model KNN
+# Contoh: knn_model = joblib.load('knn_model.joblib')
+# Pastikan Anda telah melatih model KNN sebelumnya
