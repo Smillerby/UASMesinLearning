@@ -1,45 +1,42 @@
 import streamlit as st
 import pickle
 import numpy as np
-import pandas as pd
+from sklearn.metrics import confusion_matrix, classification_report
+from sklearn.model_selection import train_test_split
 
-# Fungsi untuk mengonversi input data menjadi format yang dapat digunakan oleh model
-def preprocess_input(input_data):
-    input_data_numpy = np.asarray(input_data)
-    return input_data_numpy.reshape(1, -1)
+# ... (rest of your code)
 
-# Fungsi untuk memprediksi kategori keparahan kanker
-def predict_severity(input_data, model):
-    processed_data = preprocess_input(input_data)
-    prediction = model.predict(processed_data)
-    return prediction[0]
+# Assuming X and Y are your original features and labels
+x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.3, random_state=2)
 
-# Load model dari file pickle
+# Load the model
 filename = 'cancer patient data sets.sav'
-loaded_model = pickle.load(open(filename, 'rb'))
+model1 = pickle.load(open(filename, 'rb'))
 
-# Judul aplikasi web
-st.title("Aplikasi Keparahan Kanker Paru-Paru")
+# ...
 
-# Input form untuk pengguna
+# Evaluasi model
+y_true = y_test
+y_pred = model1.predict(x_test)
+
+# Streamlit App
+st.title("Keparahan Kanker Paru-Paru Prediction App")
+
+# Input form for user
 st.sidebar.header("Masukkan Data Pasien:")
+input_data = []
+for i in range(15):
+    input_data.append(st.sidebar.number_input(f"Fitur {i+1}", min_value=0, value=0))
 
-# Inisialisasi data frame dengan data pasien
-data_columns = ['Age', 'Air Pollution', 'Alcohol use', 'Dust Allergy', 'OccuPational Hazards', 
-                'Genetic Risk', 'chronic Lung Disease', 'Fatigue', 'Weight Loss', 
-                'Shortness of Breath', 'Wheezing', 'Swallowing Difficulty', 
-                , 'Frequent Cold', 'Dry Cough', 'Snoring']
-input_data = {}
-for column in data_columns:
-    input_data[column] = st.sidebar.number_input(column, min_value=0, value=0)
-
-# Tombol untuk memprediksi
+# Button to make predictions
 if st.sidebar.button("Prediksi"):
-    severity_prediction = predict_severity(list(input_data.values()), loaded_model)
+    severity_prediction = model1.predict(np.asarray(input_data).reshape(1, -1))[0]
     st.subheader("Hasil Prediksi:")
-    if severity_prediction == 0:
-        st.write('Keparahan Kanker Paru-Paru Pasien Berada di Tingkat Tinggi')
-    elif severity_prediction == 1:
-        st.write('Keparahan Kanker Paru-Paru Pasien Berada di Tingkat Sedang')
-    else:
-        st.write('Keparahan Kanker Paru-Paru Pasien Berada di Tingkat Rendah')
+    st.write(f'Keparahan Kanker Paru-Paru Pasien Berada di Tingkat {severity_prediction}')
+
+# Display evaluation metrics
+st.subheader("Confusion Matrix:")
+st.text(confusion_matrix(y_true, y_pred))
+
+st.subheader("Classification Report:")
+st.text(classification_report(y_true, y_pred))
