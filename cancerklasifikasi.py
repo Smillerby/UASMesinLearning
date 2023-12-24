@@ -1,46 +1,50 @@
-import streamlit as st
 import pickle
 import numpy as np
-from sklearn.metrics import confusion_matrix, classification_report
-from sklearn.model_selection import train_test_split
+import streamlit as st
 
-# ... (bagian lain dari kode Anda)
+model = pickle.load(open('LungCancer.sav', 'rb'))
 
-# Mengasumsikan data awal Anda berada dalam DataFrame yang disebut 'df'
-X = df.drop('Level', axis=1)  # Fitur
-Y = df['Level']  # Label
+st.title('Prediksi Penyakit Kanker Paru-Paru')
+c1, c2, c3 = st.columns(3)
 
-# Membagi data menjadi set pelatihan dan pengujian
-x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.3, random_state=2)
+with c1:
+    Patient_Id = st.number_input('Identitas Pasien')
+    Air_Pollution = st.number_input('Polusi Udara')
+    OccuPational_Hazards = st.number_input('Bahaya Pekerjaan')
+    Balanced_Diet = st.number_input('Diet Seimbang Pasien')
+    Passive_Smoker = st.number_input('Riwayat Rokok Pasif')
+    Fatigue = st.number_input('Gejala Kelelahan')
+    Wheezing = st.number_input('Suara Saluran Pernapasan')
+    Dry_Cough = st.number_input('Batuk Kering')
 
-# Memuat model
-filename = 'cancer-patients-and-air-pollution-a-new-link/cancer patient data sets.sav'
-model1 = pickle.load(open(filename, 'rb'))
+with c2:
+    Age = st.number_input('Umur Pasien')
+    Alcohol_use = st.number_input('Alkohol yang di konsumsi')
+    Genetic_Risk = st.number_input('Resiko Genetik')
+    Obesity = st.number_input('Riwayat Obesitas')
+    Chest_Pain = st.number_input('Nyeri Dada')
+    Weight_Loss  = st.number_input('Penurunan Berat Badan')
+    Swallowing_Difficulty = st.number_input('Kesulitan Menelan')
 
-# ...
+with c3:
+    Gender = st.number_input('Jenis Kelamin Pasien')
+    Dust_Allergy = st.number_input('Alergi Debu')
+    chronic_Lung_Disease = st.number_input('Riwayat Penyakit Paru-paru Kronis')
+    Smoking = st.number_input('Riwayat Paien Merokok')
+    Coughing_of_Blood = st.number_input('Batuk Berdarah')
+    Shortness_of_Breath = st.number_input('Sesak Nafas')
+    Clubbing_of_Finger_Nails = st.number_input('Kuku jari Tabuh')
 
-# Evaluasi model
-y_true = y_test
-y_pred = model1.predict(x_test)
+prediksi = ''
+if st.button('Hasil Prediksi'):
+    prediksi = model.predict([[Patient_Id, Age,	Gender,	Air_Pollution, Alcohol_use, Dust_Allergy, OccuPational_Hazards,	Genetic_Risk, 
+                               chronic_Lung_Disease, Balanced_Diet, Obesity, Smoking, Passive_Smoker, Chest_Pain, Coughing_of_Blood, Fatigue, 
+                               Weight_Loss, Shortness_of_Breath, Wheezing, Swallowing_Difficulty, Clubbing_of_Finger_Nails, Dry_Cough]])
 
-# Aplikasi Streamlit
-st.title("Aplikasi Prediksi Keparahan Kanker Paru-Paru")
-
-# Formulir input untuk pengguna
-st.sidebar.header("Masukkan Data Pasien:")
-input_data = []
-for i in range(15):
-    input_data.append(st.sidebar.number_input(f"Fitur {i+1}", min_value=0, value=0))
-
-# Tombol untuk membuat prediksi
-if st.sidebar.button("Prediksi"):
-    severity_prediction = model1.predict(np.asarray(input_data).reshape(1, -1))[0]
-    st.subheader("Hasil Prediksi:")
-    st.write(f'Keparahan Kanker Paru-Paru Pasien Berada di Tingkat {severity_prediction}')
-
-# Menampilkan metrik evaluasi
-st.subheader("Confusion Matrix:")
-st.text(confusion_matrix(y_true, y_pred))
-
-st.subheader("Classification Report:")
-st.text(classification_report(y_true, y_pred))
+    if (prediksi [0] == 0):
+        prediksi = 'Keparahan Kanker Paru-Paru Pasien Berada di Tingkat Tinggi'
+    elif(prediksi == 2):
+        prediksi = 'Keparahan Kanker Paru-Paru Pasien Berada di Tingkat Sedang'
+    else:
+        prediksi = 'Keparahan Kanker Paru-Paru Pasien Berada di Tingkat Rendah'
+st.success(prediksi)
