@@ -14,7 +14,6 @@ with c1:
     Passive_Smoker = st.number_input('Riwayat Rokok Pasif')
     Fatigue = st.number_input('Gejala Kelelahan')
     Wheezing = st.number_input('Suara Saluran Pernapasan')
-    Dry_Cough = st.number_input('Batuk Kering')
 
 with c2:
     Age = st.number_input('Umur Pasien')
@@ -26,15 +25,14 @@ with c2:
 with c3:
     Gender = st.number_input('Jenis Kelamin Pasien')
     Dust_Allergy = st.number_input('Alergi Debu')
-    chronic_Lung_Disease = st.number_input('Riwayat Penyakit Paru-paru Kronis')
     Smoking = st.number_input('Riwayat Paien Merokok')
     Shortness_of_Breath = st.number_input('Sesak Nafas')
 
 prediksi = ''
 if st.button('Hasil Prediksi'):
     prediksi = model.predict([[Age,	Gender,	Air_Pollution, Alcohol_use, Dust_Allergy, OccuPational_Hazards,	Genetic_Risk, 
-                               chronic_Lung_Disease, Balanced_Diet, Smoking, Passive_Smoker, Fatigue, 
-                               Weight_Loss, Shortness_of_Breath, Wheezing, Swallowing_Difficulty, Dry_Cough]])
+                               Balanced_Diet, Smoking, Passive_Smoker, Fatigue, 
+                               Weight_Loss, Shortness_of_Breath, Wheezing, Swallowing_Difficulty]])
 
     if (prediksi [0] == 0):
         prediksi = 'Keparahan Kanker Paru-Paru Pasien Berada di Tingkat Tinggi'
