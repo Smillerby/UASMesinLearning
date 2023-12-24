@@ -1,16 +1,12 @@
 import streamlit as st
 import numpy as np
-import joblib  # Untuk load model dari file pickle (pickle atau format lain sesuai dengan model yang Anda gunakan)
 
 # Fungsi untuk memprediksi tingkat keparahan kanker
 def predict_severity(input_data):
     input_data_numpy = np.asarray(input_data)
     data_reshaped = input_data_numpy.reshape(1, -1)
-    prediksi = model.predict(data_reshaped)
+    prediksi = model1.predict(data_reshaped)
     return prediksi[0]
-
-# Load model dari file (pastikan model Anda telah disimpan dengan format yang sesuai)
-model = joblib.load('nama_model.pkl')  # Ganti 'nama_model.pkl' dengan nama model yang sesuai
 
 # Tampilkan judul aplikasi
 st.title('Prediksi Keparahan Kanker Paru-Paru')
