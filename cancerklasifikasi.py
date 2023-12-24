@@ -1,44 +1,35 @@
-import pickle
-import numpy as np
 import streamlit as st
+import numpy as np
+import pickle
 
-model = pickle.load(open('cancer patient data sets.sav', 'rb'))
+# Load model from pickle file
+filename = 'cancer_patient_data_sets.sav'
+loaded_model = pickle.load(open(filename, 'rb'))
 
-st.title('Prediksi Penyakit Kanker Paru-Paru')
-c1, c2, c3 = st.columns(3)
+# Fungsi untuk memprediksi tingkat keparahan kanker
+def predict_severity(input_data):
+    input_data_numpy = np.asarray(input_data)
+    data_reshaped = input_data_numpy.reshape(1, -1)
+    prediksi = loaded_model.predict(data_reshaped)
+    return prediksi[0]
 
-with c1:
-    Air_Pollution = st.number_input('Polusi Udara')
-    OccuPational_Hazards = st.number_input('Bahaya Pekerjaan')
-    Balanced_Diet = st.number_input('Diet Seimbang Pasien')
-    Passive_Smoker = st.number_input('Riwayat Rokok Pasif')
-    Fatigue = st.number_input('Gejala Kelelahan')
-    Wheezing = st.number_input('Suara Saluran Pernapasan')
+# Tampilkan judul aplikasi
+st.title('Prediksi Keparahan Kanker Paru-Paru dengan KNN')
 
-with c2:
-    Age = st.number_input('Umur Pasien')
-    Alcohol_use = st.number_input('Alkohol yang di konsumsi')
-    Genetic_Risk = st.number_input('Resiko Genetik')
-    Weight_Loss  = st.number_input('Penurunan Berat Badan')
-    Swallowing_Difficulty = st.number_input('Kesulitan Menelan')
+# Tambahkan input pengguna menggunakan widget streamlit
+age = st.slider('Usia Pasien', min_value=1, max_value=100, value=50)
+# Tambahkan input lain sesuai kebutuhan
 
-with c3:
-    Gender = st.number_input('Jenis Kelamin Pasien')
-    Dust_Allergy = st.number_input('Alergi Debu')
-    Smoking = st.number_input('Riwayat Paien Merokok')
-    Shortness_of_Breath = st.number_input('Sesak Nafas')
+# Tombol untuk melakukan prediksi
+if st.button('Prediksi'):
+    # Lakukan prediksi menggunakan fungsi predict_severity
+    input_data = (1, age, 1, 3, 1, 5, 3, 4, 2, 2, 2, 2, 4, 2, 3)  # Sesuaikan dengan input pengguna
+    hasil_prediksi = predict_severity(input_data)
 
-hasil_prediksi = ''
-if st.button('Hasil Prediksi'):
-    hasil_prediksi = model.predict([[Age, Gender, Air_Pollution, Alcohol_use, Dust_Allergy, OccuPational_Hazards, Genetic_Risk, 
-                                   Balanced_Diet, Smoking, Passive_Smoker, Fatigue, 
-                                   Weight_Loss, Shortness_of_Breath, Wheezing, Swallowing_Difficulty]])
-
-    if hasil_prediksi[0] == 0:
-        hasil_prediksi = 'Keparahan Kanker Paru-Paru Pasien Berada di Tingkat Tinggi'
-    elif hasil_prediksi[0] == 1:
-        hasil_prediksi = 'Keparahan Kanker Paru-Paru Pasien Berada di Tingkat Sedang'
+    # Tampilkan hasil prediksi
+    if hasil_prediksi == 0:
+        st.error('Keparahan Kanker Paru-Paru Pasien Berada di Tingkat Tinggi')
+    elif hasil_prediksi == 1:
+        st.warning('Keparahan Kanker Paru-Paru Pasien Berada di Tingkat Sedang')
     else:
-        hasil_prediksi = 'Keparahan Kanker Paru-Paru Pasien Berada di Tingkat Rendah'
-
-st.success(hasil_prediksi)
+        st.success('Keparahan Kanker Paru-Paru Pasien Berada di Tingkat Rendah')
