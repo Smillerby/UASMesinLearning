@@ -28,7 +28,7 @@ st.sidebar.header("Masukkan Data Pasien:")
 data_columns = ['Age', 'Air Pollution', 'Alcohol use', 'Dust Allergy', 'OccuPational Hazards', 
                 'Genetic Risk', 'chronic Lung Disease', 'Fatigue', 'Weight Loss', 
                 'Shortness of Breath', 'Wheezing', 'Swallowing Difficulty', 
-                'Clubbing of Finger Nails', 'Frequent Cold', 'Dry Cough', 'Snoring']
+                , 'Frequent Cold', 'Dry Cough', 'Snoring']
 input_data = {}
 for column in data_columns:
     input_data[column] = st.sidebar.number_input(column, min_value=0, value=0)
