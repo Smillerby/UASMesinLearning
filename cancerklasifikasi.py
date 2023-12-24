@@ -1,12 +1,16 @@
 import streamlit as st
 import numpy as np
-from sklearn.neighbors import KNeighborsClassifier
+import pickle
+
+# Load model from pickle file
+filename = 'cancer_patient_data_sets.sav'
+loaded_model = pickle.load(open(filename, 'rb'))
 
 # Fungsi untuk memprediksi tingkat keparahan kanker
 def predict_severity(input_data):
     input_data_numpy = np.asarray(input_data)
     data_reshaped = input_data_numpy.reshape(1, -1)
-    prediksi = knn_model.predict(data_reshaped)
+    prediksi = loaded_model.predict(data_reshaped)
     return prediksi[0]
 
 # Tampilkan judul aplikasi
@@ -29,8 +33,3 @@ if st.button('Prediksi'):
         st.warning('Keparahan Kanker Paru-Paru Pasien Berada di Tingkat Sedang')
     else:
         st.success('Keparahan Kanker Paru-Paru Pasien Berada di Tingkat Rendah')
-
-# Load model KNN
-# Sesuaikan dengan cara Anda menyimpan dan memuat model KNN
-# Contoh: knn_model = joblib.load('knn_model.joblib')
-# Pastikan Anda telah melatih model KNN sebelumnya
