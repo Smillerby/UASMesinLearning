@@ -217,4 +217,5 @@ else:
 Keparahan Kanker Paru-Paru Pasien Berada di Tingkat Sedang
 
 ## Deployment
-
+ [LungCancerAPP](https://uasmesinlearning-8sj6bewzkoubqufeihbpe8.streamlit.app/)
+![Alt text](gambar7.png)
